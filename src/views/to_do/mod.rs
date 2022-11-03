@@ -1,5 +1,6 @@
 // This module is used to deal with passing parameters into view
 mod create;
+mod edit;
 mod get;
 mod utils;
 
@@ -18,5 +19,9 @@ pub fn item_factory(cfg: &mut web::ServiceConfig) {
     .route(
         &base_path.define("/get".to_string()),
         web::get().to(get::get),
+    )
+    .route(
+        &base_path.define("/edit".to_string()),
+        web::put().to(edit::edit),
     );
 }
