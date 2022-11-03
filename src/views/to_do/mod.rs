@@ -1,12 +1,22 @@
 // This module is used to deal with passing parameters into view
-pub mod create;
+mod create;
+mod get;
+mod utils;
 
-use actix_web::web;
 use super::path::Path;
-
+use actix_web::web;
 
 pub fn item_factory(cfg: &mut web::ServiceConfig) {
-    let base_path: Path = Path{prefix: String::from("/item")};
+    let base_path: Path = Path {
+        prefix: String::from("/item"),
+    };
 
-    cfg.route(&base_path.define("/create/{title}".to_string()), web::post().to(create::create));
+    cfg.route(
+        &base_path.define("/create/{title}".to_string()),
+        web::post().to(create::create),
+    )
+    .route(
+        &base_path.define("/get".to_string()),
+        web::get().to(get::get),
+    );
 }

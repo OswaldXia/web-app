@@ -1,8 +1,11 @@
-use actix_web::{App, HttpServer};
+mod json_serialization;
 mod processes;
 mod state;
 mod to_do;
 mod views;
+
+use actix_web::{App, HttpServer};
+
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {

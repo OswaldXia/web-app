@@ -4,7 +4,6 @@ mod path;
 mod to_do;
 
 use actix_web::web;
-use std::env;
 
 // we can merely pass in the config struct through the factory to build all the routes for the auth.
 // In the future, we will also build other modules for views. Because of this, we need another factory that can orchestrate the multiple view factories.

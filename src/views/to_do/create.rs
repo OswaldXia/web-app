@@ -9,14 +9,10 @@ the process module interface.
 5. Return a string to the user to signal that the process has finished.
 */
 
-use std::fmt::format;
-
 use crate::processes::process_input;
 use crate::state::read_file;
-use crate::to_do::{self, to_do_factory};
+use crate::to_do::to_do_factory;
 use actix_web::HttpRequest;
-use serde_json::value::Value;
-use serde_json::Map;
 
 pub async fn create(req: HttpRequest) -> String {
     let file_name = "./state.json";
