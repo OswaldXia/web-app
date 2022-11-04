@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- This tells the browser how to handle the dimensions and scaling of the page content as there are different devices with different screen sizes -->
+    <meta name="viewport" content="width=device-width, 
+        initial-scale=1.0">
+    <meta httpEquiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="This is a simple
+        to do app">
+    <title>To Do App</title>
+</head>
+
+<body>
+    <h1>To Do Items</h1>
+    <input type="text" id="name" placeholder="create to do item">
+    <button type="submit" id="create-button" value="Send">Create</button>
+</body>
+<script>
+    let createButton = document.getElementById("create-button");
+    // bind the Create button to the postAlert function by creating an event listener
+    createButton.addEventListener("click", postAlert);
+
+    function postAlert() {
+        let titleInput = document.getElementById("name");
+        // get the value of the text input, print it out in an alert box
+        alert(titleInput.value);
+        // set the value to null
+        titleInput.value = null;
+    }
+</script>
+
+</html>

@@ -3,6 +3,7 @@ mod auth;
 mod path;
 mod to_do;
 pub mod token;
+mod app;
 
 use actix_web::web;
 
@@ -12,4 +13,5 @@ pub fn views_factory(cfg: &mut web::ServiceConfig) {
     // We can simply cut off the `auth` views by merely commenting out the following line.
     auth::auth_factory(cfg);
     to_do::item_factory(cfg);
+    app::app_factory(cfg);
 }
