@@ -2,6 +2,7 @@
 mod auth;
 mod path;
 mod to_do;
+pub mod token;
 
 use actix_web::web;
 
