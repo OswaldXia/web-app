@@ -1,6 +1,5 @@
+use super::content_loader::{add_component, read_file};
 use actix_web::HttpResponse;
-
-use super::content_loader::read_file;
 
 pub async fn items() -> HttpResponse {
     let html_file_path = "./templates/main.html";
@@ -15,6 +14,8 @@ pub async fn items() -> HttpResponse {
         .replace("{ JAVASCRIPT }", &js_code)
         .replace("/* BASE_CSS */", &base_css_data)
         .replace("/* CSS */", &css_data);
+
+    html_data = add_component("header", &html_data);
     // simply return a HttpResponse struct that has a HTML content type and a body
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
