@@ -9,12 +9,12 @@ the process module interface.
 5. Return a string to the user to signal that the process has finished.
 */
 
-use crate::processes::process_input;
+use crate::{processes::process_input, views::to_do::utils::return_state};
 use crate::state::read_file;
 use crate::to_do::to_do_factory;
-use actix_web::HttpRequest;
+use actix_web::{HttpRequest, HttpResponse};
 
-pub async fn create(req: HttpRequest) -> String {
+pub async fn create(req: HttpRequest) -> HttpResponse {
     let file_name = "./state.json";
     let state = read_file(file_name); // 1
 
@@ -27,5 +27,7 @@ pub async fn create(req: HttpRequest) -> String {
     let item = to_do_factory("pending", &title).expect("create"); // 3
 
     process_input(item, "create", &state); // 4
-    return format!("{} created", title); // 5
+    // return format!("{} created", title); // 5
+    println!("{} is created", title);
+    HttpResponse::Ok().json(return_state())
 }
