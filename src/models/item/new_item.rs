@@ -11,9 +11,9 @@ pub struct NewItem {
 }
 
 impl NewItem {
-    pub fn new(title: String) -> NewItem {
+    pub fn new(title: &str) -> NewItem {
         NewItem {
-            title,
+            title: title.to_string(),
             status: "pending".to_string(),
         }
     }
