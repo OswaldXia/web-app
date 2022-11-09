@@ -14,19 +14,19 @@ pub fn item_factory(cfg: &mut web::ServiceConfig) {
     };
 
     cfg.route(
-        &base_path.define("/create/{title}".to_string()),
+        &base_path.define("/create/{title}"),
         web::post().to(create::create),
     )
     .route(
-        &base_path.define("/get".to_string()),
+        &base_path.define("/get"),
         web::get().to(get::get),
     )
     .route(
-        &base_path.define("/edit".to_string()),
+        &base_path.define("/edit"),
         web::put().to(edit::edit),
     )
     .route(
-        &base_path.define("/delete".to_string()),
+        &base_path.define("/delete"),
         web::post().to(delete::delete),
     );
 }

@@ -1,9 +1,10 @@
 // Defining own factory for each views module
+mod app;
 mod auth;
 mod path;
 mod to_do;
 pub mod token;
-mod app;
+mod users;
 
 use actix_web::web;
 
@@ -14,4 +15,5 @@ pub fn views_factory(cfg: &mut web::ServiceConfig) {
     auth::auth_factory(cfg);
     to_do::item_factory(cfg);
     app::app_factory(cfg);
+    users::user_factory(cfg);
 }

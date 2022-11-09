@@ -9,8 +9,5 @@ pub fn app_factory(cfg: &mut ServiceConfig) {
     let base_path = Path {
         prefix: "/".to_string(),
     };
-    cfg.route(
-        &base_path.define("".to_string()),
-        web::get().to(items::items),
-    );
+    cfg.route(&base_path.define(""), web::get().to(items::items));
 }

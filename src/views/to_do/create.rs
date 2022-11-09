@@ -32,7 +32,7 @@ pub async fn create_db(req: HttpRequest) -> impl Responder {
     let items = to_do::table.filter(to_do::columns::title.eq(title));
     // check the item being created exists in the database, if not, create an item and insert it into the database
     if let Ok(0) = items.count().get_result(&mut connection) {
-        let new_item = NewItem::new(title);
+        let new_item = NewItem::new(title, 1);
         diesel::insert_into(to_do::table)
             .values(new_item)
             .execute(&mut connection)

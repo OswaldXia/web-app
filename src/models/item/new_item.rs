@@ -8,13 +8,15 @@ use diesel::Insertable;
 pub struct NewItem {
     pub title: String,
     pub status: String,
+    pub user_id: i32,
 }
 
 impl NewItem {
-    pub fn new(title: &str) -> NewItem {
+    pub fn new(title: &str, user_id: i32) -> NewItem {
         NewItem {
             title: title.to_string(),
             status: "pending".to_string(),
+            user_id,
         }
     }
 }

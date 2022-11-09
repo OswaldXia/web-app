@@ -1,11 +1,14 @@
 // define a to-do item data model struct for management
 use crate::schema::to_do;
-use diesel::{Identifiable, Queryable};
+use diesel::{Identifiable, Queryable, Associations};
+use crate::models::user::user::User;
 
-#[derive(Queryable, Identifiable)]
+#[derive(Queryable, Identifiable, Associations)]
+#[belongs_to(User)]
 #[table_name = "to_do"]
 pub struct Item {
     pub id: i32,
     pub title: String,
     pub status: String,
+    pub user_id: i32
 }

@@ -9,11 +9,11 @@ pub fn auth_factory(cfg: &mut web::ServiceConfig) {
     };
 
     cfg.route(
-        &base_path.define("/login".to_string()),
+        &base_path.define("/login"),
         web::get().to(login::login),
     )
     .route(
-        &base_path.define(String::from("/logout")),
+        &base_path.define("/logout"),
         web::get().to(logout::logout),
     );
 }
