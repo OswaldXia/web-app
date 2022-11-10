@@ -1,3 +1,4 @@
+mod auth;
 mod database;
 mod json_serialization;
 mod models;
@@ -17,7 +18,7 @@ async fn main() -> std::io::Result<()> {
             // pass in the service request and the routing
             .wrap_fn(|req, srv| {
                 if req.path().contains("/item/") {
-                    match views::token::process_token(&req) {
+                    match auth::process_token(&req) {
                         Ok(_) => println!("the token is passable"),
                         Err(msg) => println!("token error: {}", msg),
                     }

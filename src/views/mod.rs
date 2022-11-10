@@ -3,7 +3,6 @@ mod app;
 mod auth;
 mod path;
 mod to_do;
-pub mod token;
 mod users;
 
 use actix_web::web;
