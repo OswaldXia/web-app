@@ -1,3 +1,16 @@
+
+// stops a user without a token viewing the main items view
+if (localStorage.getItem("user-token") == null) {
+    window.location.replace(document.location.origin + '/login');
+}
+
+
+getItems();
+let button = document.getElementById("create-button")
+button.addEventListener("click", createItem);
+
+
+
 /**
  * Renders the to do items from the backend into a HTML div.
  *
@@ -49,19 +62,23 @@ function apiCall(url, method) {
     xhr.withCredentials = true;
     xhr.addEventListener('readystatechange', function () {
         if (this.readyState === this.DONE) {
-            renderItems(
-                JSON.parse(this.responseText)["pending_items"],
-                "edit", "pendingItems", editItem);
-            renderItems(
-                JSON.parse(this.responseText)["done_items"],
-                "delete", "doneItems", deleteItem);
-            document.getElementById("completeNum").innerHTML = JSON.parse(this.responseText)["done_item_count"];
-            document.getElementById("pendingNum").innerHTML = JSON.parse(this.responseText)["pending_item_count"];
+            //  redirect the user to log in if the API call is unauthorized
+            if (this.status == 401) {
+                window.location.replace(document.location.origin + '/login/');
+            } else {
+                renderItems(
+                    JSON.parse(this.responseText)["pending_items"], "edit", "pendingItems", editItem);
+                renderItems(
+                    JSON.parse(this.responseText)["done_items"], "delete", "doneItems", deleteItem);
+                document.getElementById("completeNum").innerHTML = JSON.parse(this.responseText)["done_item_count"];
+                document.getElementById("pendingNum").innerHTML = JSON.parse(this.responseText)["pending_item_count"];
+            }
         }
     });
     xhr.open(method, url);
     xhr.setRequestHeader('content-type', 'application/json');
-    xhr.setRequestHeader('user-token', 'token');
+    // get the token from storage and insert it into the header for the request to send it
+    xhr.setRequestHeader('user-token', localStorage.getItem("user-token"));
     return xhr
 }
 
@@ -108,8 +125,3 @@ function createItem() {
     call.send();
     document.getElementById("name").value = null;
 }
-
-getItems();
-let button = document.getElementById("create-button")
-button.addEventListener("click", createItem);
-

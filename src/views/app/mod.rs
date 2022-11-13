@@ -1,5 +1,7 @@
 mod content_loader;
 mod items;
+mod login;
+mod logout;
 
 use super::path::Path;
 use actix_web::web::{self, ServiceConfig};
@@ -9,5 +11,14 @@ pub fn app_factory(cfg: &mut ServiceConfig) {
     let base_path = Path {
         prefix: "/".to_string(),
     };
-    cfg.route(&base_path.define(""), web::get().to(items::items));
+
+    cfg
+        .route(
+            &base_path.define(""), 
+            web::get().to(items::items))
+        .route(
+            &base_path.define("login"), web::get().to(login::login))
+        .route(
+            &base_path.define("logout"), 
+            web::get().to(logout::logout));
 }

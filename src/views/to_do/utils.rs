@@ -8,13 +8,13 @@ use diesel::prelude::*;
 
 pub fn return_state() -> ToDoItems {
     // establish the connection
-    let mut connection = establish_connection();
+    let connection = &mut establish_connection();
     //  get our table and build a database query from it
     let items = to_do::table
         // The first part of the query defines the order
         .order(to_do::columns::id.asc())
         // then define what struct is going to be used to load the data and pass in a reference to the connection
-        .load::<Item>(&mut connection)
+        .load::<Item>(connection)
         .unwrap();
 
     let mut items_processed = vec![];

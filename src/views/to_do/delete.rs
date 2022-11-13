@@ -14,11 +14,11 @@ pub async fn delete(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
 pub async fn delete_db(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
     let title = &to_do_item.title;
 
-    let mut connection = establish_connection();
+    let connection = &mut establish_connection();
 
     let items = to_do::table.filter(to_do::columns::title.eq(title));
 
-    diesel::delete(items).execute(&mut connection).unwrap();
+    diesel::delete(items).execute(connection).unwrap();
 
     HttpResponse::Ok().json(return_state())
 }

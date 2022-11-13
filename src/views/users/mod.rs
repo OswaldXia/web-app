@@ -5,8 +5,8 @@ pub mod create;
 
 pub fn user_factory(cfg: &mut ServiceConfig) {
     let base_path = Path {
-        prefix: "/user".to_string(),
+        prefix: "/user/".to_string(),
     };
 
-    cfg.route(&base_path.define("/create"), web::post().to(create::create));
+    cfg.route(&base_path.define("create"), web::post().to(create::create));
 }

@@ -5,15 +5,15 @@ use super::path::Path;
 
 pub fn auth_factory(cfg: &mut web::ServiceConfig) {
     let base_path = Path {
-        prefix: "/auth".to_string(),
+        prefix: "/auth/".to_string(),
     };
 
     cfg.route(
-        &base_path.define("/login"),
-        web::get().to(login::login),
+        &base_path.define("login"),
+        web::post().to(login::login),
     )
     .route(
-        &base_path.define("/logout"),
-        web::get().to(logout::logout),
+        &base_path.define("logout"),
+        web::post().to(logout::logout),
     );
 }

@@ -14,11 +14,11 @@ pub async fn edit(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
 #[allow(dead_code)]
 pub async fn edit_db(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
     let title = &to_do_item.title;
-    let mut connection = establish_connection();
+    let connection = &mut establish_connection();
     let result = to_do::table.filter(to_do::columns::title.eq(title));
     diesel::update(result)
         .set(to_do::columns::status.eq("done"))
-        .execute(&mut connection)
+        .execute(connection)
         .unwrap();
     HttpResponse::Ok().json(return_state())
 }

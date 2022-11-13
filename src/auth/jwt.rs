@@ -25,11 +25,11 @@ impl JwtToken {
 
     pub fn decode(encoded_token: &str) -> Result<JwtToken, &'static str> {
         // generated a new key with the same byte string
-        let key = Hmac::<Sha256>::new_from_slice(b"secret").unwrap();
+        let key = &Hmac::<Sha256>::new_from_slice(b"secret").unwrap();
         // used VerifyWithKey with the token string and key we created to get the token
         let result = VerifyWithKey::<Token<Header, BTreeMap<String, _>, _>>::verify_with_key(
             encoded_token,
-            &key,
+            key,
         );
 
         match result {
