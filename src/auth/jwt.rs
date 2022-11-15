@@ -1,3 +1,4 @@
+use actix_web::HttpRequest;
 use hmac::{Hmac, Mac};
 use jwt::SignWithKey;
 use jwt::{Header, Token, VerifyWithKey};
@@ -42,6 +43,14 @@ impl JwtToken {
                 },
             ),
             Err(_) => Err("Could not decode"),
+        }
+    }
+    // accepts the HTTP request struct, extracts the token from the header, and then calls the decode function in order to avoid repetitive code in all our views that extract the header
+    pub fn decode_from_request(request: &HttpRequest) -> Result<JwtToken, &'static str> {
+        if let Some(token) = request.headers().get("user-token") {
+            JwtToken::decode(token.to_str().unwrap())
+        } else {
+            Err("there is no token")
         }
     }
 }

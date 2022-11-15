@@ -16,18 +16,18 @@ pub fn item_factory(cfg: &mut web::ServiceConfig) {
 
     cfg.route(
         &base_path.define("create/{title}"),
-        web::post().to(create::create),
+        web::post().to(create::create_db),
     )
         .route(
             &base_path.define("get"),
-            web::get().to(get::get),
+            web::get().to(get::get_db),
     )
         .route(
             &base_path.define("edit"),
-            web::put().to(edit::edit),
+            web::put().to(edit::edit_db),
     )
         .route(
             &base_path.define("delete"),
-            web::post().to(delete::delete),
+            web::post().to(delete::delete_db),
     );
 }

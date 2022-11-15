@@ -22,8 +22,8 @@ pub async fn login(credentials: web::Json<Login>) -> HttpResponse {
     } else if user_list.len() > 1 {
         HttpResponse::Conflict().await.unwrap()
     } else if user_list[0].verify(password) {
-        let token = JwtToken::encode(user_list[0].id);
-        HttpResponse::Ok().append_header(("token", token)).await.unwrap()
+        let user_token = JwtToken::encode(user_list[0].id);
+        HttpResponse::Ok().append_header(("user-token", user_token)).await.unwrap()
     } else {
         HttpResponse::Unauthorized().await.unwrap()
     }

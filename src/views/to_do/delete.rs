@@ -1,26 +1,24 @@
-use super::utils::return_state;
+use super::utils::{return_state_db, return_state_json};
 use crate::{
-    database::establish_connection, json_serialization::to_do_item::ToDoItem,
+    auth::jwt::JwtToken, database::establish_connection, json_serialization::to_do_item::ToDoItem,
     processes::process_input, schema::to_do, state::read_file, to_do::to_do_factory,
 };
-use actix_web::{web, HttpResponse};
+use actix_web::{web, HttpRequest, HttpResponse};
 use diesel::prelude::*;
 
-pub async fn delete(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
-    delete_db(to_do_item).await
-}
-
 #[allow(dead_code)]
-pub async fn delete_db(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
+pub async fn delete_db(to_do_item: web::Json<ToDoItem>, request: HttpRequest) -> HttpResponse {
     let title = &to_do_item.title;
-
+    let user_id = JwtToken::decode_from_request(&request).unwrap().user_id;
     let connection = &mut establish_connection();
 
-    let items = to_do::table.filter(to_do::columns::title.eq(title));
+    let items = to_do::table
+        .filter(to_do::columns::title.eq(title))
+        .filter(to_do::columns::user_id.eq(user_id));
 
     diesel::delete(items).execute(connection).unwrap();
 
-    HttpResponse::Ok().json(return_state())
+    HttpResponse::Ok().json(return_state_db(user_id))
 }
 
 #[allow(dead_code)]
@@ -33,7 +31,7 @@ pub async fn delete_json(to_do_item: web::Json<ToDoItem>) -> HttpResponse {
 
     if let Ok(item) = to_do_factory(item_type, item_title) {
         process_input(item, "delete", &state);
-        HttpResponse::Ok().json(return_state())
+        HttpResponse::Ok().json(return_state_json())
     } else {
         HttpResponse::BadRequest().json(format!("{} not accepted", item_type))
     }

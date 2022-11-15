@@ -5,7 +5,7 @@ const password = document.getElementById('defaultLoginFormPassword');
 const message = document.getElementById("loginMessage");
 
 // add an event listener to the login button, which sends the data from the form to the login endpoint
-loginButton.addEventListener('click', () => {
+loginButton.addEventListener("click", () => {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/api/v1/auth/login", true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -16,9 +16,9 @@ loginButton.addEventListener('click', () => {
             // chech if the response is ok
             if (xhr.status === 200) {
                 // get the token from the header of the response
-                let token = xhr.getResponseHeader("token");
+                let user_token = xhr.getResponseHeader("user-token");
                 // store the token in localstorage
-                localStorage.setItem("user-token", token);
+                localStorage.setItem("user-token", user_token);
                 // redirect the page
                 window.location.replace(document.location.origin)
             } else {
