@@ -1,7 +1,7 @@
 
 // stops a user without a token viewing the main items view
 if (localStorage.getItem("user-token") == null) {
-    window.location.replace(document.location.origin + '/login');
+    window.location.replace(document.location.origin + "/login");
 }
 
 
@@ -60,11 +60,11 @@ function renderItems(items, processType, elementId, processFunction) {
 function apiCall(url, method) {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
-    xhr.addEventListener('readystatechange', function () {
+    xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
             //  redirect the user to log in if the API call is unauthorized
             if (this.status == 401) {
-                window.location.replace(document.location.origin + '/login/');
+                window.location.replace(document.location.origin + "/login/");
             } else {
                 renderItems(
                     JSON.parse(this.responseText)["pending_items"], "edit", "pendingItems", editItem);
@@ -75,10 +75,10 @@ function apiCall(url, method) {
             }
         }
     });
-    xhr.open(method, url);
-    xhr.setRequestHeader('content-type', 'application/json');
+    xhr.open(method, "/api/v1" + url);
+    xhr.setRequestHeader("content-type", "application/json");
     // get the token from storage and insert it into the header for the request to send it
-    xhr.setRequestHeader('user-token', localStorage.getItem("user-token"));
+    xhr.setRequestHeader("user-token", localStorage.getItem("user-token"));
     return xhr
 }
 

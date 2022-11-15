@@ -6,6 +6,7 @@ use super::path::Path;
 pub fn auth_factory(cfg: &mut web::ServiceConfig) {
     let base_path = Path {
         prefix: "/auth/".to_string(),
+        backend: true
     };
 
     cfg.route(

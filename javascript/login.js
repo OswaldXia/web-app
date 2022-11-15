@@ -7,7 +7,7 @@ const message = document.getElementById("loginMessage");
 // add an event listener to the login button, which sends the data from the form to the login endpoint
 loginButton.addEventListener('click', () => {
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/auth/login", true);
+    xhr.open("POST", "/api/v1/auth/login", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     // set a handler for the readystatechange event
     xhr.onreadystatechange = function () {
