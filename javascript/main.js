@@ -2,13 +2,12 @@
 // stops a user without a token viewing the main items view
 if (localStorage.getItem("user-token") == null) {
     window.location.replace(document.location.origin + "/login");
+} else {
+    getItems();
 }
 
-
-getItems();
 let button = document.getElementById("create-button")
 button.addEventListener("click", createItem);
-
 
 
 /**

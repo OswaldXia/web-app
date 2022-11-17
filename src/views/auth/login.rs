@@ -20,6 +20,7 @@ pub async fn login(credentials: web::Json<Login>) -> HttpResponse {
     if user_list.is_empty() {
         HttpResponse::NotFound().await.unwrap()
     } else if user_list.len() > 1 {
+        log::error!("multiple users have the username: {}", user_name);
         HttpResponse::Conflict().await.unwrap()
     } else if user_list[0].verify(password) {
         let user_token = JwtToken::encode(user_list[0].id);
