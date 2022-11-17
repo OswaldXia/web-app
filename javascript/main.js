@@ -3,7 +3,18 @@
 if (localStorage.getItem("user-token") == null) {
     window.location.replace(document.location.origin + "/login");
 } else {
-    getItems();
+    let item_cache_date = Date.parse(localStorage.getItem("item-cache-date"));
+    let now = new Date();
+    let difference = Math.round(
+        (now - item_cache_date) / 1000
+    );
+
+    if (difference <= 120) {
+        let response_text = localStorage.getItem("item-cache-data");
+        runRenderProcess(response_text);
+    } else {
+        getItems();
+    }
 }
 
 let button = document.getElementById("create-button")
@@ -49,6 +60,16 @@ function renderItems(items, processType, elementId, processFunction) {
     }
 }
 
+function runRenderProcess(response_text) {
+    let data = JSON.parse(response_text);
+    renderItems(
+        data["pending_items"], "edit", "pendingItems", editItem);
+    renderItems(
+        data["done_items"], "delete", "doneItems", deleteItem);
+    document.getElementById("completeNum").innerHTML = data["done_item_count"];
+    document.getElementById("pendingNum").innerHTML = data["pending_item_count"];
+}
+
 /**
  * Packages an API call ready to be sent.
  *
@@ -65,12 +86,13 @@ function apiCall(url, method) {
             if (this.status == 401) {
                 window.location.replace(document.location.origin + "/login/");
             } else {
-                renderItems(
-                    JSON.parse(this.responseText)["pending_items"], "edit", "pendingItems", editItem);
-                renderItems(
-                    JSON.parse(this.responseText)["done_items"], "delete", "doneItems", deleteItem);
-                document.getElementById("completeNum").innerHTML = JSON.parse(this.responseText)["done_item_count"];
-                document.getElementById("pendingNum").innerHTML = JSON.parse(this.responseText)["pending_item_count"];
+                runRenderProcess(this.responseText);
+                localStorage.setItem(
+                    "item-cache-date", new Date()
+                );
+                localStorage.setItem(
+                    "item-cache-data", this.responseText
+                );
             }
         }
     });
