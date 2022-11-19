@@ -1,0 +1,25 @@
+[package]
+name = "web-app"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4"
+actix-rt = "2"
+serde_json = { version = "1", default-features = false, features = ["alloc"] }
+futures = "0.3"
+serde = { version = "1", features = ["derive"] }
+actix-service = "1"
+diesel = { version = "2", features = ["postgres"] }
+dotenvy = "0.15"
+# to hash and check password
+bcrypt = "0.13"
+# to generate unique IDs for the user data models
+uuid = { version = "1", features = ["serde", "v4"] }
+jwt = "0.16"
+hmac = "0.12"
+sha2 = "0.10"
+log = "0.4"
+env_logger = "0.9"
